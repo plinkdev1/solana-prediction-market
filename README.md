@@ -1,46 +1,147 @@
-﻿# DXMarket — An On-Chain Prediction Market for Contrarian, Satirical Outcomes
+﻿<div align="center">
 
-A Solana-based prediction market where users stake a native token ($DATX) on dark, contrarian propositions about real-world events. Markets resolve through community governance, losing positions feed a deflationary burn, and a public API lets bots trade programmatically.
+# DXMarket
 
-> **Status:** MVP / mock-mode. Market browsing, market detail, and leaderboard flows are implemented; on-chain settlement and the Supabase-backed data APIs are in progress.
+**An on-chain, community-resolved prediction market on Solana**
 
-## Overview
+[![Solana](https://img.shields.io/badge/Solana-9945FF?logo=solana&logoColor=white)](https://solana.com)
+[![Next.js](https://img.shields.io/badge/Next.js-16-000?logo=next.js&logoColor=white)](https://nextjs.org)
+[![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org)
+[![Tailwind](https://img.shields.io/badge/Tailwind_CSS-06B6D4?logo=tailwindcss&logoColor=white)](https://tailwindcss.com)
+[![Status](https://img.shields.io/badge/status-MVP-orange)]()
 
-DXMarket is the prediction-market arm of the $DATX ecosystem. Where mainstream prediction markets price serious financial and political events, DXMarket prices satire — contrarian, tongue-in-cheek propositions — as simple binary (Yes/No) share markets. Users browse open markets, take a position with the native token, and track standings on a global leaderboard.
+*Bet $DATX on contrarian, satirical propositions - community-resolved, deflationary, and bot-friendly.*
 
-It is built as a typed Next.js 16 (App Router) application. Markets, positions, and resolution are designed to settle on Solana, with the on-chain layer kept behind dedicated API routes and a Supabase data layer so the trading UI stays independent of the settlement mechanism. A public API exposes markets so external bots can read and trade programmatically.
+</div>
 
-## Core Features
+---
 
-- **Markets engine** — binary Yes/No share markets with a browsable grid (`/bets`) and per-market detail pages (`/markets/[id]`) showing the proposition, current pricing, and open positions.
-- **Micro-bets in $DATX** — positions are taken with a native SPL token; no fiat and no house edge beyond a small rake.
-- **Community resolution** — outcomes settle through a multisig + DAO vote rather than a single trusted oracle.
-- **Deflationary burn** — a share of losing positions is burned, contracting token supply over time.
-- **Public API** — open endpoints so external bots can read markets and place positions programmatically.
-- **Leaderboard** — global ranking of top predictors (`/leaderboard`).
-- **Cross-chain (roadmap)** — planned cross-chain liquidity via Nitrolite state channels.
+## What Is This?
 
-## Architecture
+DXMarket is the prediction-market arm of the $DATX ecosystem. Where mainstream markets price serious finance, DXMarket prices satire: contrarian, tongue-in-cheek propositions traded as simple binary (Yes/No) share markets. Users browse open markets, take a position with the native token, and climb a global leaderboard.
+
+> **One token. Binary markets. Community resolution. A public API for bots.**
+
+---
+
+## Features
+
+| Feature | Description | Status |
+|---|---|:---:|
+| Binary markets | Yes/No share markets with live pricing (`/bets`) | ✅ |
+| Market detail | Proposition, chart, and open positions per market (`/markets/[id]`) | ✅ |
+| Leaderboard | Global ranking of top predictors (`/leaderboard`) | ✅ |
+| $DATX micro-bets | SPL-token positions, small rake, no fiat | 🚧 |
+| Community resolution | Outcomes settled by multisig + DAO vote | 🚧 |
+| Deflationary burn | A share of losing positions is burned | 🚧 |
+| Public bot API | Programmatic market read/trade endpoints | 🚧 |
+| Cross-chain liquidity | Nitrolite state channels | Roadmap |
+
+---
+
+## How It Works
+Next.js client ──▶ API routes (markets · resolution · public bot API)
+│                      │
+▼                      ▼
+Phantom wallet      Solana programs (escrow · payout · burn)
+│
+▼
+$DATX SPL token + DAO governance
+
+---
+
+## Tech Stack
 
 | Layer | Technology |
 |-------|------------|
 | Frontend | Next.js 16 (App Router, Turbopack), React, TypeScript |
 | Styling | Tailwind CSS, shadcn/ui |
-| Chain | Solana — SPL token, on-chain escrow & burn (in progress) |
+| Chain | Solana - SPL token, on-chain escrow & burn |
 | Wallet | Phantom via Alchemy RPC |
-| Data / API | Next.js API routes backed by Supabase (Postgres) |
+| Data / API | Next.js API routes + Supabase (Postgres) |
 | Cross-chain | Nitrolite (roadmap) |
 
-**Project layout.** App-Router routes for the market grid (`/bets`), market detail (`/markets/[id]`), and leaderboard (`/leaderboard`), with server-side routes under `app/api/*` (e.g. `leaderboard`, `consent`) wrapping the Supabase data layer. Token, escrow, and burn logic sit behind those routes so the front end never talks to the chain directly.
+---
+
+## Project Structure
+
+```
+dxmarket/
+anchor/
+   programs/
+   Anchor.toml
+app/
+   api/
+   api-test/
+   bets/
+   debug/
+   disclaimers/
+   leaderboard/
+components/
+   compliance/
+   layout/
+   markets/
+   sewer/
+   ui/
+   theme-provider.tsx
+docs/
+   ARCHITECTURE.md
+   DATABASE_DIAGRAM.md
+   KALSHI_OVERHAUL_PLAN_SOLANA.md
+   lore-fast-markets-plan.md
+   master-plan.md
+   PROMPT_SEQUENCE.md
+hooks/
+   use-microcopy.ts
+   use-mobile.ts
+   use-toast.ts
+   use-trades-websocket.ts
+lib/
+   api-client.ts
+   bet-store.ts
+   constants.ts
+   format-utils.ts
+   market-store.ts
+   microcopy.ts
+public/
+   apple-icon.png
+   icon-dark-32x32.png
+   icon-light-32x32.png
+   icon.svg
+   placeholder-logo.png
+   placeholder-logo.svg
+scripts/
+   001-create-schema.sql
+   002-seed-data.sql
+   004-add-market-type.sql
+   005-kalshi-overhaul-phase1.sql
+   006-rls-indexes-phase1.sql
+   007-seed-content-pages.sql
+styles/
+   globals.css
+.gitignore
+components.json
+next.config.mjs
+next-env.d.ts
+package.json
+pnpm-lock.yaml
+postcss.config.mjs
+README.md
+tsconfig.json
+```
+
+---
 
 ## Screenshots
 
 <p align="center">
-  <img src="screenshots/01.png" width="800" /><br/><br/>
-  <img src="screenshots/02.png" width="800" /><br/><br/>
-  <img src="screenshots/03.png" width="800" /><br/><br/>
-  <img src="screenshots/04.png" width="800" /><br/><br/>
+  <img src="screenshots/01.png" width="800" />
+  <img src="screenshots/02.png" width="800" />
+  <img src="screenshots/03.png" width="800" />
+  <img src="screenshots/04.png" width="800" />
 </p>
+
+---
 
 ## Getting Started
 
@@ -50,11 +151,13 @@ cp .env.example .env.local   # add your own keys
 pnpm dev
 ```
 
-Required environment variables (names only — never commit real values):
+Environment variables (names only - never commit real values):
 NEXT_PUBLIC_SUPABASE_URL=
 NEXT_PUBLIC_SUPABASE_ANON_KEY=
 SUPABASE_SERVICE_ROLE_KEY=
 NEXT_PUBLIC_SOLANA_RPC_URL=
+
+---
 
 ## Roadmap
 
@@ -63,6 +166,22 @@ NEXT_PUBLIC_SOLANA_RPC_URL=
 - Public bot/API documentation
 - Cross-chain liquidity via Nitrolite
 
+---
+
+## Troubleshooting
+
+**API routes return 500 / "supabaseUrl is required"** - set the Supabase env vars above; the market browsing UI renders without them, but the data APIs need them.
+
+**Wallet not detected** - install a Solana wallet (Phantom) and ensure the RPC URL is set.
+
+---
+
 ## Notes
 
-This repository is shared as a portfolio artifact demonstrating product and system design. It is an early prototype, not a finished product. All markets are satirical and for entertainment only — nothing here is financial advice, and the project involves no real-money gambling.
+Shared as a portfolio artifact demonstrating product and system design. Early prototype, not a finished product. All markets are satirical and for entertainment only - not financial advice, and no real-money gambling.
+
+<div align="center">
+
+Built on Solana · part of the $DATX ecosystem · MIT
+
+</div>
