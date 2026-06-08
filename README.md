@@ -7,7 +7,6 @@
 [![Solana](https://img.shields.io/badge/Solana-9945FF?logo=solana&logoColor=white)](https://solana.com)
 [![Next.js](https://img.shields.io/badge/Next.js-16-000?logo=next.js&logoColor=white)](https://nextjs.org)
 [![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org)
-[![Tailwind](https://img.shields.io/badge/Tailwind_CSS-06B6D4?logo=tailwindcss&logoColor=white)](https://tailwindcss.com)
 [![Status](https://img.shields.io/badge/status-MVP-orange)]()
 
 *Bet $DATX on contrarian, satirical propositions - community-resolved, deflationary, and bot-friendly.*
@@ -18,7 +17,7 @@
 
 ## What Is This?
 
-DXMarket is the prediction-market arm of the $DATX ecosystem. Where mainstream markets price serious finance, DXMarket prices satire: contrarian, tongue-in-cheek propositions traded as simple binary (Yes/No) share markets. Users browse open markets, take a position with the native token, and climb a global leaderboard.
+DXMarket is the prediction-market arm of the $DATX ecosystem. Where mainstream markets price serious finance, DXMarket prices satire: contrarian propositions traded as simple binary (Yes/No) share markets. Users browse open markets, take a position with the native token, and climb a global leaderboard.
 
 > **One token. Binary markets. Community resolution. A public API for bots.**
 
@@ -29,24 +28,27 @@ DXMarket is the prediction-market arm of the $DATX ecosystem. Where mainstream m
 | Feature | Description | Status |
 |---|---|:---:|
 | Binary markets | Yes/No share markets with live pricing (`/bets`) | ✅ |
-| Market detail | Proposition, chart, and open positions per market (`/markets/[id]`) | ✅ |
+| Market detail | Proposition, chart, positions per market (`/markets/[id]`) | ✅ |
 | Leaderboard | Global ranking of top predictors (`/leaderboard`) | ✅ |
 | $DATX micro-bets | SPL-token positions, small rake, no fiat | 🚧 |
-| Community resolution | Outcomes settled by multisig + DAO vote | 🚧 |
-| Deflationary burn | A share of losing positions is burned | 🚧 |
-| Public bot API | Programmatic market read/trade endpoints | 🚧 |
+| Community resolution | Multisig + DAO vote | 🚧 |
+| Deflationary burn | Burn a share of losing positions | 🚧 |
+| Public bot API | Programmatic market read/trade | 🚧 |
 | Cross-chain liquidity | Nitrolite state channels | Roadmap |
 
 ---
 
 ## How It Works
+
+```
 Next.js client ──▶ API routes (markets · resolution · public bot API)
-│                      │
-▼                      ▼
-Phantom wallet      Solana programs (escrow · payout · burn)
-│
-▼
-$DATX SPL token + DAO governance
+       │                      │
+       ▼                      ▼
+  Phantom wallet      Solana programs (escrow · payout · burn)
+                              │
+                              ▼
+                     $DATX SPL token + DAO governance
+```
 
 ---
 
@@ -152,10 +154,13 @@ pnpm dev
 ```
 
 Environment variables (names only - never commit real values):
+
+```
 NEXT_PUBLIC_SUPABASE_URL=
 NEXT_PUBLIC_SUPABASE_ANON_KEY=
 SUPABASE_SERVICE_ROLE_KEY=
 NEXT_PUBLIC_SOLANA_RPC_URL=
+```
 
 ---
 
@@ -168,17 +173,9 @@ NEXT_PUBLIC_SOLANA_RPC_URL=
 
 ---
 
-## Troubleshooting
-
-**API routes return 500 / "supabaseUrl is required"** - set the Supabase env vars above; the market browsing UI renders without them, but the data APIs need them.
-
-**Wallet not detected** - install a Solana wallet (Phantom) and ensure the RPC URL is set.
-
----
-
 ## Notes
 
-Shared as a portfolio artifact demonstrating product and system design. Early prototype, not a finished product. All markets are satirical and for entertainment only - not financial advice, and no real-money gambling.
+Shared as a portfolio artifact demonstrating product and system design. Early prototype; satirical and for entertainment only - not financial advice, no real-money gambling.
 
 <div align="center">
 
