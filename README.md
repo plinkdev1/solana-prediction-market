@@ -1,6 +1,6 @@
-﻿<div align="center">
+<div align="center">
 
-# DXMarket
+# Solana Prediction Market
 
 **An on-chain, community-resolved prediction market on Solana**
 
